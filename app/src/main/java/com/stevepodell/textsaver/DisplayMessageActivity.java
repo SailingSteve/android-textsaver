@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 
 public class DisplayMessageActivity extends AppCompatActivity {
-    public final int idTxtView = 12345;
+    public final TextView textView = new TextView(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +32,11 @@ public class DisplayMessageActivity extends AppCompatActivity {
             text = text.substring(0, 100);
         }
         editor.putString(getString(com.stevepodell.textsaver.R.string.saved_text), text);
-        editor.commit();
-
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(text);
-        textView.setId(idTxtView);
+        editor.apply();
 
         ViewGroup layout = (ViewGroup) findViewById(com.stevepodell.textsaver.R.id.activity_display_message);
+        textView.setTextSize(40);
+        textView.setText(text);
         layout.addView(textView);
     }
 
@@ -53,8 +50,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
         boolean bHasText = sharedPref.contains(getString(com.stevepodell.textsaver.R.string.saved_text));
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(getString(com.stevepodell.textsaver.R.string.saved_text), "");
-        editor.commit();
-        TextView textView = (TextView) findViewById(idTxtView);
+        editor.apply();
         textView.setText("");
     }
 }
